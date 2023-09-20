@@ -3,7 +3,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Lato', 'Segoe UI', 'Roboto', 'Oxygen';
-  font-size: 62.5%;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+
+  //font-size: 62.5%;
 }
 
 * {

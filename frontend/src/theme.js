@@ -10,7 +10,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        borderRadius: '3rem',
+        borderRadius: '1.875rem',
         backgroundColor: '#2D6FF6',
         padding: '10px 50px',
         '&:hover': {
@@ -21,27 +21,27 @@ const theme = createMuiTheme({
   },
   typography: {
     h1: {
-      fontSize: '5rem',
+      fontSize: '3.125rem',
       fontWeight: '600',
       lineHeight: '122%'
     },
     h2: {
-      fontSize: '2.4rem',
+      fontSize: '2.25rem',
       fontWeight: '500',
       lineHeight: 'normal'
     },
     h3: {
-      fontSize: '3rem',
+      fontSize: '1.875rem',
       fontWeight: '600',
       lineHeight: '122%'
     },
     subtitle1: {
-      fontSize: '1.8rem',
+      fontSize: '1.125rem',
       fontWeight: '400',
       lineHeight: '122%'
     },
     subtitle2: {
-      fontSize: '1.6rem',
+      fontSize: '1rem',
       fontWeight: '400',
       lineHeight: '152%'
     }

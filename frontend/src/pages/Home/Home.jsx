@@ -1,26 +1,29 @@
 import React, { useEffect } from 'react';
 import './Home.scss';
-import agent from '../../agent/agent';
-import Logo from '../Logo/Logo';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import Theme from '../../theme';
-import DeleteIcon from '@mui/icons-material/Delete';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Pagination from '@mui/material/Pagination';
+import agent from '../../agent/agent';
+import { Pages } from '../../components';
+import Header from '../../components/Header/Header';
+import MainHeader from '../../components/MainHeader/MainHeader';
 
 const Home = () => {
-  useEffect(() => {
+  React.useEffect(() => {
     agent.Crawler.getHistory()
-      .then(res => {})
-      .catch(e => {});
+      .then(res => {
+        console.log({ res });
+      })
+      .catch(e => {
+        console.log({ e });
+      });
   });
 
   return (
     <Theme>
+      <MainHeader />
       <div className='main'>
-        <h1>Start Here</h1>
+        <Header />
+        <Pages />
+        {/*<h1>Start Here</h1>
         <Logo />
         <Button variant='contained' color='primary'>
           Primary
@@ -29,13 +32,12 @@ const Home = () => {
           <Typography variant='h1'>H1 Text</Typography>
           <Typography variant='h2'>H2 Text</Typography>
           <Typography variant='h3'>H3 Text</Typography>
-          <Typography variant='subtitle1'>Primary Paragraph</Typography>
+          <Typography variant='subtitle1'>Crawl pages to see their HTML elements (headings, paragraphs, meta tags, links, etc.)</Typography>
           <Typography variant='subtitle2'>Secondary Paragraph</Typography>
           <TextField id='standard-basic' label='Standard' />
           <DeleteIcon />
-          <MoreVertIcon />
-          <Pagination count={10} variant='outlined' shape='rounded' />
-        </div>
+          <Pagination count={10} shape='rounded' color='#2D6FF6' />
+        </div>*/}
       </div>
     </Theme>
   );
