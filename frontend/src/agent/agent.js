@@ -1,22 +1,22 @@
 import superagent from 'superagent';
 
 const API = 'http://localhost:3000'
-const responseBody = (res: any) => {
+const responseBody = (res) => {
   return res.body;
 };
 
-const httpHeaders = (req: any) => {
+const httpHeaders = (req) => {
   req.set('Accept', 'application/json');
 };
 
 const requests = {
-  del: (url: string) =>
+  del: (url) =>
     superagent.del(`${API}${url}`).use(httpHeaders).then(responseBody),
-  get: (url: string) =>
+  get: (url) =>
     superagent.get(`${API}${url}`).withCredentials().use(httpHeaders).then(responseBody),
-  put: (url: string, body: any) =>
+  put: (url, body) =>
     superagent.put(`${API}${url}`, body).use(httpHeaders).then(responseBody),
-  post: (url: string, body: any) =>
+  post: (url, body) =>
     superagent.post(`${API}${url}`, body).withCredentials().use(httpHeaders).then(responseBody),
 };
 
