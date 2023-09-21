@@ -5,7 +5,26 @@ const crawledPageSchema = new Schema({
     type: String,
     required: true
   },
-  //todo: add here the missing fields
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: false
+  },
+  h1: {
+    type: String,
+    required: false
+  },
+  h2: {
+    type: String,
+    required: false
+  },
+  links: {
+    type: [String],
+    default: []
+  },
   creationDate: {
     type: Date,
     default: Date.now

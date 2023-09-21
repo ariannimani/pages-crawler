@@ -36,7 +36,14 @@ app.use(compression());
 app.use(cookieParser());
 
 // allow AJAX requests to skip the Same-origin policy and access resources from remote hosts
-app.use(cors());
+//app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:8000', // replace with your client's domain or the exact origin you're making the request from
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true // this is essential to allow cookies or authentication information
+  })
+);
 
 // serve a visual favicon for the browser
 app.use(favicon(__dirname + '/favicon.ico'));
@@ -86,5 +93,5 @@ app.set('ipaddr', '0.0.0.0');
 
 // start express server
 app.listen(app.get('port'), app.get('ipaddr'), function () {
-  console.log(emoji.get('heart'), 'The server is running @ ' + 'http://localhost/' + app.get('port'), emoji.get('heart'));
+  console.log(emoji.get('heart'), 'The server is running @ ' + 'http://localhost:' + app.get('port'), emoji.get('heart'));
 });
