@@ -1,22 +1,11 @@
 import React, { useEffect } from 'react';
 import './Home.scss';
 import Theme from '../../theme';
-import agent from '../../agent/agent';
 import { Pages } from '../../components';
 import Header from '../../components/Header/Header';
 import MainHeader from '../../components/MainHeader/MainHeader';
 
 const Home = () => {
-  React.useEffect(() => {
-    agent.Crawler.getHistory()
-      .then(res => {
-        console.log({ res });
-      })
-      .catch(e => {
-        console.log({ e });
-      });
-  });
-
   return (
     <Theme>
       <MainHeader />
