@@ -10,7 +10,6 @@ import './Home.scss';
 const Home = () => {
   return (
     <Theme>
-      <MainHeader />
       <div className='main'>
         <Header />
         <Pages />
