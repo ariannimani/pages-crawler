@@ -1,10 +1,10 @@
 import React from 'react';
-import Pagination from '@material-ui/lab/Pagination';
 import { Box, CircularProgress, Typography } from '@material-ui/core';
 
 import { List } from '../';
 import { useCrawlContext } from '../../../../context';
 import styles from './Body.module.scss';
+import CustomPagination from '../../../CustomPagination/CustomPagination';
 
 const Body = () => {
   const { pagesData, page, isLoading, totalPages, handlePageChange } = useCrawlContext();
@@ -31,16 +31,7 @@ const Body = () => {
       {pagesData.map((page, index) => (
         <List page={page} id={startingIndex + index + 1} />
       ))}
-      {totalPages > 0 && (
-        <Pagination
-          className={styles.pagination}
-          count={totalPages}
-          shape='rounded'
-          color='#2D6FF6'
-          page={page}
-          onChange={handlePageChange}
-        />
-      )}
+      {totalPages > 0 && <CustomPagination count={totalPages} page={page} onChange={handlePageChange} />}
     </Box>
   );
 };

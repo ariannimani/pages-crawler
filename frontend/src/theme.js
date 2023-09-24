@@ -18,6 +18,11 @@ const theme = createTheme({
           backgroundColor: '#0949CC'
         }
       }
+    },
+    MuiPaginationItem: {
+      root: {
+        border: '1px solid gray'
+      }
     }
   },
   typography: {
