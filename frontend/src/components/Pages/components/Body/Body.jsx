@@ -1,48 +1,46 @@
-import { Box, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { List } from '../';
-import agent from '../../../../agent/agent';
+import React from 'react';
 import Pagination from '@material-ui/lab/Pagination';
+import { Box, CircularProgress, Typography } from '@material-ui/core';
+
+import { List } from '../';
+import { useCrawlContext } from '../../../../context';
+import styles from './Body.module.scss';
 
 const Body = () => {
-  const [links, setLinks] = useState({});
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const { pagesData, page, isLoading, totalPages, handlePageChange } = useCrawlContext();
   const startingIndex = (page - 1) * 6;
 
-  const handlePageChange = (event, value) => {
-    setPage(value);
-  };
-
-  useEffect(() => {
-    if (links[page]) {
-      return;
-    }
-
-    agent.Crawler.getHistory(page)
-      .then(res => {
-        setLinks(prevLinks => ({
-          ...prevLinks,
-          [page]: res.data
-        }));
-        setTotalPages(res.totalPages);
-      })
-      .catch(e => {
-        console.log({ e });
-      });
-  }, [page, links]);
-
-  const currentLinks = links[page] || [];
+  if (isLoading)
+    return (
+      <Box className={styles.loadingContainer}>
+        <CircularProgress disableShrink />
+      </Box>
+    );
 
   return (
     <Box>
-      <Typography variant='h2' style={{ textAlign: 'left', margin: '20px 0' }}>
-        Crawled Pages
-      </Typography>
-      {currentLinks.map((link, index) => (
-        <List link={link} id={startingIndex + index + 1} />
+      {pagesData.length > 0 ? (
+        <Typography variant='h2' className={styles.headerText}>
+          Crawled Pages
+        </Typography>
+      ) : (
+        <Typography variant='subtitle1' className={styles.noPagesText}>
+          Currently, there are no pages that have been crawled. Start by adding a new page to crawl!
+        </Typography>
+      )}
+      {pagesData.map((page, index) => (
+        <List page={page} id={startingIndex + index + 1} />
       ))}
-      <Pagination count={totalPages} shape='rounded' color='#2D6FF6' style={{ float: 'right' }} page={page} onChange={handlePageChange} />
+      {totalPages > 0 && (
+        <Pagination
+          className={styles.pagination}
+          count={totalPages}
+          shape='rounded'
+          color='#2D6FF6'
+          page={page}
+          onChange={handlePageChange}
+        />
+      )}
     </Box>
   );
 };

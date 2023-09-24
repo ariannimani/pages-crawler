@@ -1,0 +1,19 @@
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.headerText {
+  text-align: left;
+  margin: 20px 0 !important;
+}
+
+.noPagesText {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.pagination {
+  float: right;
+}

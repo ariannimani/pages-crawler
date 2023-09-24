@@ -1,43 +1,47 @@
-import React from 'react';
-import { Box, MenuItem, MenuList, Paper, Typography } from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import React, { useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { Box, Link, MenuItem, MenuList, Paper, Typography } from '@material-ui/core';
 
 import Elipse from '../../../../../Elipse/Elipse';
-import { useState } from 'react';
-import { formatDate } from '../../../../../../utils';
-import agent from '../../../../../../agent/agent';
-const PageBox = ({ link }) => {
-  const { url, title, description, h1, h2, links, creationDate, updateDate } = link;
+import ToolTip from '../../../../../ToolTip/ToolTip';
+import { useCrawlContext } from '../../../../../../context';
+import { formatDate, mergeElements, truncateString } from '../../../../../../utils';
+import styles from './PageBox.module.scss';
+
+const PageBox = ({ page }) => {
+  const { url, title, description, h1, h2, links, creationDate } = page;
+  const { deletePage } = useCrawlContext();
 
   const [isVisible, setIsvisible] = useState(false);
 
   const onClickHandler = () => {
     setIsvisible(!isVisible);
   };
-  const deleteCawlHandler = () => {
-    agent.Crawler.deleteCrawl(`${url}`)
-      .then(res => {
-        console.log({ res });
-      })
-      .catch(e => {
-        console.log({ e });
-      });
+
+  const onDeletePageHandler = () => {
+    deletePage(url, creationDate);
+    setIsvisible(false);
   };
+
+  const list = mergeElements(h1, h2, links);
+
   return (
-    <Box style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
-      <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant='subtitle2'>{url}</Typography>
-        <Box style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-          <Typography variant='subtitle2' style={{ color: '#8A8A8A' }}>
+    <Box className={styles.pageContainer}>
+      <Box className={styles.linkHeader}>
+        <Link href={url} color='inherit' target='_blank' rel='noopener noreferrer'>
+          {truncateString(url)}
+        </Link>
+        <Box className={styles.linkActions}>
+          <Typography variant='subtitle2' className={styles.dateText}>
             {formatDate(creationDate)}
           </Typography>
           <Box style={{ position: 'relative' }}>
-            <MoreVertIcon style={{ color: '#CCCFD6', cursor: 'pointer' }} onClick={onClickHandler} />
+            <MoreVertIcon className={styles.menuIcon} onClick={onClickHandler} />
             {isVisible && (
-              <Paper style={{ position: 'absolute' }}>
-                <MenuList autoFocusItem={false} id='menu-list-grow' onKeyDown={() => {}}>
-                  <MenuItem onClick={deleteCawlHandler} style={{ color: '#CCCFD6', cursor: 'pointer' }}>
+              <Paper className={styles.menu}>
+                <MenuList autoFocusItem={false} id='menu-list-grow'>
+                  <MenuItem onClick={onDeletePageHandler} style={{ color: '#CCCFD6', cursor: 'pointer' }}>
                     <DeleteIcon /> Delete
                   </MenuItem>
                 </MenuList>
@@ -48,12 +52,11 @@ const PageBox = ({ link }) => {
       </Box>
       <Typography variant='h3'>{title}</Typography>
       <Typography variant='subtitle1'>{description}</Typography>
-      <Box style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#667085' }}>
-        <Typography variant='subtitle1'>H x 12</Typography>
+      <Box className={styles.elementList}>
+        {list.map(element => (
+          <ToolTip element={element} />
+        ))}
         <Elipse />
-        <Typography variant='subtitle1'>H x 12</Typography>
-        <Elipse />
-        <Typography variant='subtitle1'>H x 12</Typography>
       </Box>
     </Box>
   );

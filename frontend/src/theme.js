@@ -1,7 +1,8 @@
 import React from 'react';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core';
+import { createTheme } from '@material-ui/core/styles';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: '#2D6FF6'
@@ -33,7 +34,8 @@ const theme = createMuiTheme({
     h3: {
       fontSize: '1.875rem',
       fontWeight: '600',
-      lineHeight: '122%'
+      lineHeight: '122%',
+      color: '#2D6FF6'
     },
     subtitle1: {
       fontSize: '1.125rem',

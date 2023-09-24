@@ -1,0 +1,39 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.linkHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.linkActions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.dateText {
+  color: #8a8a8a;
+}
+
+.menuIcon {
+  color: #cccfd6;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  z-index: 1;
+  right: 1rem;
+}
+
+.elementList {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #667085;
+}

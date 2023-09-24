@@ -18,7 +18,7 @@ const requests = {
 
 const Crawler = {
   crawl: url => requests.post('/crawler/crawl', { url }),
-  deleteCrawl: url => requests.del(`/crawler/delete?url=${url}`),
+  deletePage: url => requests.del(`/crawler/delete?url=${url}`),
   getHistory: (page = 1, limit = 6) => requests.get(`/crawler/history?page=${page}&limit=${limit}`)
 };
 
