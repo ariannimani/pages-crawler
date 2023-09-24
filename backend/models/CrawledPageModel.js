@@ -14,11 +14,11 @@ const crawledPageSchema = new Schema({
     required: false
   },
   h1: {
-    type: String,
+    type: [String],
     required: false
   },
   h2: {
-    type: String,
+    type: [String],
     required: false
   },
   links: {

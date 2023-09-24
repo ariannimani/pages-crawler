@@ -2,28 +2,36 @@ import CrawledPage from '../models/CrawledPageModel';
 import puppeteer from 'puppeteer';
 
 export const crawl = async (req, res) => {
-  const { url } = req.body;
+  let { url } = req.body;
 
   if (!url) {
-    return res.status(400).json({ error: 'URL is required.' });
+    return res.status(400).json({ error: { message: 'URL is required.' } });
+  }
+
+  if (!url.match(/^(http:|https:)/i)) {
+    url = 'http://' + url;
   }
 
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
+    console.log({ url });
+
     await page.goto(url, { waitUntil: 'networkidle2' });
 
     const data = await page.evaluate(() => {
       const description = document.querySelector('meta[name="description"]');
-      const h1 = document.querySelector('h1');
-      const h2 = document.querySelector('h2');
+      const h1s = Array.from(document.querySelectorAll('h1')).map(h => h.innerText);
+      const h2s = Array.from(document.querySelectorAll('h2')).map(h => h.innerText);
+      const links = Array.from(document.querySelectorAll('a')).map(link => link.href);
+
       return {
         title: document.title,
         description: description ? description.content : undefined,
-        h1: h1 ? h1.innerText : undefined,
-        h2: h2 ? h2.innerText : undefined,
-        links: Array.from(document.querySelectorAll('a')).map(link => link.href)
+        h1s,
+        h2s,
+        links
       };
     });
 
@@ -41,7 +49,7 @@ export const crawl = async (req, res) => {
   } catch (error) {
     console.error('Error crawling the page:', error.message);
     console.error(error.stack);
-    res.status(500).json({ error: 'Failed to crawl the page.' });
+    res.status(500).json({ error: { message: 'Failed to crawl the page.' } });
   }
 };
 
@@ -52,6 +60,7 @@ export const getHistory = (req, res) => {
   const skip = (page - 1) * limit;
 
   CrawledPage.find()
+    .sort({ creationDate: -1 })
     .skip(skip)
     .limit(limit)
     .exec((error, pages) => {
@@ -77,7 +86,7 @@ export const deleteCrawl = async (req, res) => {
   const { url } = req.query;
 
   if (!url) {
-    return res.status(400).json({ error: 'URL is required.' });
+    return res.status(400).json({ error: { message: 'URL is required.' } });
   }
 
   try {
@@ -86,11 +95,11 @@ export const deleteCrawl = async (req, res) => {
     if (result) {
       res.json({ message: 'Successfully deleted the page with the provided url.' });
     } else {
-      res.status(404).json({ error: 'No page found with the provided url.' });
+      res.status(404).json({ error: { message: 'No page found with the provided url.' } });
     }
   } catch (error) {
     console.error('Error deleting the page:', error.message);
     console.error(error.stack);
-    res.status(500).json({ error: 'Failed to delete the page.' });
+    res.status(500).json({ error: { message: 'Failed to delete the page.' } });
   }
 };
